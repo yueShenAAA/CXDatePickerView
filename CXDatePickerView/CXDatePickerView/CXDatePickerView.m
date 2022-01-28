@@ -16,7 +16,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 @interface CXDatePickerView()<UIPickerViewDelegate,UIPickerViewDataSource,UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) UIView *buttomView;
+
 @property (nonatomic, strong) UIView *headerView;
 
 @property (nonatomic, strong) UIPickerView *datePicker;
@@ -289,9 +289,9 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     
     [self initPickerHeaderView];
     //点击背景是否影藏
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismiss)];
-    tap.delegate = self;
-    [self addGestureRecognizer:tap];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismiss)];
+//    tap.delegate = self;
+//    [self addGestureRecognizer:tap];
     
     [self layoutIfNeeded];
     
@@ -299,35 +299,35 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 }
 
 - (void)initPickerHeaderView {
-    self.headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, PickerBackViewWeight, PickerHeaderHeight)];
-    _headerView.backgroundColor = [UIColor whiteColor];
-    [self.buttomView addSubview:_headerView];
+//    self.headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, PickerBackViewWeight, PickerHeaderHeight)];
+//    _headerView.backgroundColor = [UIColor whiteColor];
+//    [self.buttomView addSubview:_headerView];
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth - 70 * 2, PickerHeaderHeight)];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.center = self.headerView.center;
-    self.headerTitleLabel = titleLabel;
-    [_headerView addSubview:titleLabel];
+//    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth - 70 * 2, PickerHeaderHeight)];
+//    titleLabel.textAlignment = NSTextAlignmentCenter;
+//    titleLabel.center = self.headerView.center;
+//    self.headerTitleLabel = titleLabel;
+//    [_headerView addSubview:titleLabel];
     
-    CGRect cancelButtonFrame  = CGRectMake(15, 0, 60, PickerHeaderHeight);
-    CGRect confirmButtonFrame = CGRectMake(PickerBackViewWeight - 60 - 15, 0, 60, PickerHeaderHeight);
+//    CGRect cancelButtonFrame  = CGRectMake(15, 0, 60, PickerHeaderHeight);
+//    CGRect confirmButtonFrame = CGRectMake(PickerBackViewWeight - 60 - 15, 0, 60, PickerHeaderHeight);
+//
+//    UIButton *cancelButton = [[UIButton alloc] initWithFrame:cancelButtonFrame];
+//    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+//    self.cancelButton = cancelButton;
+//    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+//    cancelButton.titleLabel.font = [UIFont systemFontOfSize:15];
+//    [_headerView addSubview:cancelButton];
     
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:cancelButtonFrame];
-    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    self.cancelButton = cancelButton;
-    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
-    cancelButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [_headerView addSubview:cancelButton];
     
-    
-    UIButton *confirmButton = [[UIButton alloc] initWithFrame:confirmButtonFrame];
-    self.confirmButton = confirmButton;
-    [confirmButton setTitle:@"确定" forState:UIControlStateNormal];
-    [confirmButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [confirmButton addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
-    confirmButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [_headerView addSubview:confirmButton];
+//    UIButton *confirmButton = [[UIButton alloc] initWithFrame:confirmButtonFrame];
+//    self.confirmButton = confirmButton;
+//    [confirmButton setTitle:@"确定" forState:UIControlStateNormal];
+//    [confirmButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [confirmButton addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
+//    confirmButton.titleLabel.font = [UIFont systemFontOfSize:15];
+//    [_headerView addSubview:confirmButton];
 }
 
 - (void)addLabelWithName:(NSArray *)nameArr {
@@ -352,8 +352,16 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     for (int i = 0; i < nameArr.count; i++) {
         CGFloat labelX = PickerWeight/(nameArr.count * 2) + 10 + PickerWeight / nameArr.count * i;
         if (i == 0 && [self.manager.unitArray containsObject:@"年"]) {
-            labelX = PickerWeight/(nameArr.count * 2) + 20;
+//            labelX = PickerWeight/(nameArr.count * 2) + 20;
+            labelX = kScreenWidth/3 - 15/2;
         }
+        if (i == 1  && [self.manager.unitArray containsObject:@"月"]){
+            labelX = kScreenWidth*2/3 -15;
+        }
+        if (i == 2  && [self.manager.unitArray containsObject:@"日"]){
+            labelX = kScreenWidth-43-15;
+        }
+        
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(labelX, self.backYearView.frame.size.height / 2 - 15 / 2.0, 15, 15)];
         
         label.text = nameArr[i];
@@ -378,18 +386,18 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     }];
 }
 
-- (void)dismiss {
-    [UIView animateWithDuration:self.showAnimationTime animations:^{
-        CGFloat buttomViewHeight = self.pickerViewHeight + self.topViewHeight;
-        self.buttomView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, buttomViewHeight);
-        
-        self.backgroundColor = RGBA(0, 0, 0, ShadeViewAlphaWhenHide);
-        [self layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        [self removeFromSuperview];
-    }];
-}
+//- (void)dismiss {
+//    [UIView animateWithDuration:self.showAnimationTime animations:^{
+//        CGFloat buttomViewHeight = self.pickerViewHeight + self.topViewHeight;
+//        self.buttomView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, buttomViewHeight);
+//
+//        self.backgroundColor = RGBA(0, 0, 0, ShadeViewAlphaWhenHide);
+//        [self layoutIfNeeded];
+//    } completion:^(BOOL finished) {
+//        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+//        [self removeFromSuperview];
+//    }];
+//}
 
 - (void)confirm {
     NSDate *date = [self.manager.scrollToDate cx_dateWithFormatter:self.manager.dateFormatter];
@@ -399,11 +407,11 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     if (self.doneBlock) {
         self.doneBlock(date);
     }
-    [self dismiss];
+//    [self dismiss];
 }
 
 - (void)cancel {
-    [self dismiss];
+//    [self dismiss];
 }
 
 #pragma mark - UIPickerViewDelegate,UIPickerViewDataSource
@@ -420,7 +428,9 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
     return _pickerRowHeight;
 }
-
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component{
+    return (kScreenWidth - 60)/3;
+}
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
     UILabel *customLabel = (UILabel *)view;
@@ -589,7 +599,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         case CXDateYearMonthDayHourMinuteSecond:{
             if (component == 0) {
                 self.manager.yearIndex = row;
-                self.backYearView.text = self.manager.yearArray[row];
+//                self.backYearView.text = self.manager.yearArray[row];
             }
             if (component == 1) {
                 self.manager.monthIndex = row;
@@ -617,7 +627,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         case CXDateYearMonthDayHourMinute:{
             if (component == 0) {
                 self.manager.yearIndex = row;
-                self.backYearView.text = self.manager.yearArray[row];
+//                self.backYearView.text = self.manager.yearArray[row];
             }
             if (component == 1) {
                 self.manager.monthIndex = row;
@@ -644,7 +654,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             
             if (component == 0) {
                 self.manager.yearIndex = row;
-                self.backYearView.text = self.manager.yearArray[row];
+//                self.backYearView.text = self.manager.yearArray[row];
             }
             if (component == 1) {
                 self.manager.monthIndex = row;
@@ -679,7 +689,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             
             if (component == 0) {
                 self.manager.yearIndex = row;
-                self.backYearView.text = self.manager.yearArray[row];
+//                self.backYearView.text = self.manager.yearArray[row];
             }
             if (component == 1) {
                 self.manager.monthIndex = row;
@@ -762,7 +772,10 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     
     [pickerView reloadAllComponents];
     [self.manager  refreshScrollToDate];
-    
+    NSDate *date = [self.manager.scrollToDate cx_dateWithFormatter:self.manager.dateFormatter];
+    if (self.doneBlock) {
+        self.doneBlock(date);
+    }
 }
 
 

@@ -14,7 +14,7 @@
  *  日期单位样式
  */
 @property (nonatomic, assign) CXDateLabelUnitStyle dateLabelUnitStyle; // 默认0.25
-
+@property (nonatomic, strong) UIView *buttomView;
 /**
  *  弹出动画时间
  */
