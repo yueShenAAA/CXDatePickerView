@@ -350,20 +350,20 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     }
     
     for (int i = 0; i < nameArr.count; i++) {
-        CGFloat labelX = PickerWeight/(nameArr.count * 2) + 10 + PickerWeight / nameArr.count * i;
-        if (i == 0 && [self.manager.unitArray containsObject:@"年"]) {
-//            labelX = PickerWeight/(nameArr.count * 2) + 20;
-            labelX = kScreenWidth/3 - 15/2;
-        }
-        if (i == 1  && [self.manager.unitArray containsObject:@"月"]){
-            labelX = kScreenWidth*2/3 -15;
-        }
-        if (i == 2  && [self.manager.unitArray containsObject:@"日"]){
-            labelX = kScreenWidth-43-15;
-        }
-        
+//        CGFloat labelX = PickerWeight /(nameArr.count * 2) + 10 + PickerWeight / nameArr.count * i;
+        CGFloat labelX = PickerWeight / nameArr.count + (PickerWeight / nameArr.count - 10)*i;
+//        if (i == 0 && [self.manager.unitArray containsObject:@"年"]) {
+////            labelX = PickerWeight/(nameArr.count * 2) + 20;
+//            labelX = kScreenWidth/3 - 15/2;
+//        }
+//        if (i == 1  && [self.manager.unitArray containsObject:@"月"]){
+//            labelX = kScreenWidth*2/3 -15;
+//        }
+//        if (i == 2  && [self.manager.unitArray containsObject:@"日"]){
+//            labelX = kScreenWidth-43-15;
+//        }
+//
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(labelX, self.backYearView.frame.size.height / 2 - 15 / 2.0, 15, 15)];
-        
         label.text = nameArr[i];
         label.textAlignment = NSTextAlignmentCenter;
         label.font = _dateUnitLabelFont;
@@ -429,7 +429,8 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     return _pickerRowHeight;
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component{
-    return (kScreenWidth - 60)/3;
+    
+    return (kScreenWidth - 60)/self.manager.unitArray.count;
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
