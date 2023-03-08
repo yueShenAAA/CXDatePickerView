@@ -433,7 +433,26 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     return (kScreenWidth - 60)/self.manager.unitArray.count;
 }
 
+//取到选中行背景的图层,修改颜色
+- (void)customSelectedRow {
+    NSArray *subviews = self.datePicker.subviews;
+    if (!(subviews.count > 0)) {
+           return;
+       }
+    NSArray *coloms = subviews.firstObject;
+    if (coloms) {
+        NSArray *subviewCache = [coloms valueForKey:@"subviewCache"];
+        if (subviewCache.count > 0) {
+            UIView *middleContainerView = [subviewCache.firstObject valueForKey:@"middleContainerView"];
+            if (middleContainerView) {
+                middleContainerView.backgroundColor = RGB(252, 152, 150);
+            }
+        }
+    }
+}
+
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    [self customSelectedRow];
     UILabel *customLabel = (UILabel *)view;
     if (!customLabel) {
         customLabel = [[UILabel alloc] init];
